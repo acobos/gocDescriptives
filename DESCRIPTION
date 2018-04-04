@@ -4,7 +4,7 @@ Title: What the Package Does (Title Case)
 Version: 0.0.0.9002
 Author: A.Cobos
 Maintainer: A.Cobos <acobos@ub.edu>
-Description: To get descriptives for reports.
+Description: Package to facilitate descriptives for reports.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
