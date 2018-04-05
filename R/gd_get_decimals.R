@@ -6,6 +6,8 @@
 #'
 #' @return A numeric vector, which values are the number of decimals of corresponding \code{x} elements.
 #' 
+#' @export
+#' 
 gd_get_decimals <- function (x) {
 
   # input validation
