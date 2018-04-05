@@ -21,7 +21,7 @@
 #' gd_date(inclusion_date, date_format="%e-%m-%y")
 #'
 #' # Four-digit year
-#' gd_date(inclusion_date, date_format="%e-%b-%Y")
+#' gd_date(inclusion_date, date_format="%e-%m-%Y")
 #'
 #'
 #' @export
