@@ -39,41 +39,44 @@
 #' gd_categ(iris$Species, useNA = "always")
 #'
 #' @export
-gd_categ <- function (x, useNA = "ifany") {
+gd_categ <- function (x, useNA = "ifany", NA_label = "Missing") {
 
   # input validation
-  if (!is.vector(x) & !is.factor(x)) stop("x is neither a vector nor a factor")
-  if (length(x)==0) stop("x has zero length")
-
-  # Counts
-  res <- as.data.frame(table(x, useNA = useNA))
-
-  total <- sum(res$Freq)
-
-  valid_n <- sum(res$Freq[!(is.na(res$x) | res$x == "No disponible")])
-
-
-  res$Perc <- formatC(sprintf("(%.1f %%)", 100 * res$Freq / sum(res$Freq)),
-                      width=9)
-
-  # si hay missings y
-  # if (sum(is.na(x)) > 0 & useNA !="no") {
-  if (valid_n < total) {
-    res$Perc <- ifelse(!is.na(res$x) & (res$x != "No disponible") ,
-                       paste(res$Perc,
-                             formatC(sprintf("[%.1f %%]", 100 * res$Freq / valid_n),
-                                     width=9)),
-                       paste(res$Perc,
-                             "         "))
-  }
-
-  res$Value <- paste0("n = ", res$Freq, res$Perc)
-
-  res$Freq <- NULL
-  res$Perc <- NULL
-  res$Variable <- deparse(substitute(x))
-  res$Key <- as.character(res$x)
-  res[is.na(res$Key),"Key"] <- "Missing"
-  res %>% select(Variable, Key, Value)
+    if (!is.vector(x) & !is.factor(x)) stop("x is neither a vector nor a factor")
+    if (length(x)==0) stop("x has zero length")
+    if ((length(NA_label) != 1) | (class(NA_label)[1] != "character")) 
+        stop("NA_label not a character of length 1")
+    
+    
+    # Counts
+    res <- as.data.frame(table(x, useNA = useNA))
+    
+    total <- sum(res$Freq)
+    
+    valid_n <- sum(res$Freq[!(is.na(res$x) | res$x == "No disponible")])
+    
+    
+    res$Perc <- formatC(sprintf("(%.1f %%)", 100 * res$Freq / sum(res$Freq)),
+                        width=9)
+    
+    # si hay missings y
+    # if (sum(is.na(x)) > 0 & useNA !="no") {
+    if (valid_n < total) {
+        res$Perc <- ifelse(!is.na(res$x) & (res$x != "No disponible") ,
+                           paste(res$Perc,
+                                 formatC(sprintf("[%.1f %%]", 100 * res$Freq / valid_n),
+                                         width=9)),
+                           paste(res$Perc,
+                                 "         "))
+    }
+    
+    res$Value <- paste0("n = ", res$Freq, res$Perc)
+    
+    res$Freq <- NULL
+    res$Perc <- NULL
+    res$Variable <- deparse(substitute(x))
+    res$Key <- as.character(res$x)
+    res[is.na(res$Key),"Key"] <- NA_label
+    res %>% select(Variable, Key, Value)
 }
 
