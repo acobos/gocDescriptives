@@ -1,47 +1,49 @@
 #' Describes a categorical variable
 #'
-#' Describes a categorical variable; creates its frequency table, with both
-#'   absolute (n) and relative(\%) frequencies.
+#' Describes a categorical variable; creates its frequency table, including both
+#'   absolute (n) and relative frequencies (\%). Percentages are computed on the total number of 
+#'   observations, and also on the total number of valid (e.g., non-missing) observations. 
 #'
-#' @param x The categorical variable to be described (\code{character} or
-#'   \code{factor}) .
-#' @param useNA Optional. Controls the handling of missing values. If provided,
-#' shoud be one of the following \code{character} values: "no", "ifany",
-#' "always". See Details.
-#' @param NA_label \code{character}. Label for missings in the output. Defaults to "Missing".
-#' @param exclude \code{character}. Levels to be excluded in the computation of valid %. Defaults to
-#' "No disponible". Can specify more than one, e.g.: c("No sabe", "No contesta", "Desconocido").
+#' @param x \code{character} or \code{factor} variable to be described.
+#' @param useNA \code{character}. Controls the handling of missing values, should be one of 
+#' \code{c("no", "ifany", "always")}. Defaults to \code{"ifany"}. See Details and examples.
+#' @param NA_label \code{character} . Label for missings in the output. Defaults to "Missing".
+#' @param exclude \code{character}. Level(s) to be excluded in the computation of valid \%. Defaults 
+#' to \code{"No disponible"}. More than one level can be specified, e.g.: \code{c("No sabe", 
+#' "No contesta", "Desconocido")}. See examples.
 #' @return A \code{dataframe} with three columns: \code{Variable}, \code{Key},
 #' \code{Value}.
 #'
 #' @details When \code{useNA = "ifany"} (default), missing values are included
 #' and percentages are computed on the total number of cases. When
-#' \code{useNA = "no"}, missing values are excluded and percentages are computed
-#' on the number of non-missing cases. \code{useNA = "always"} forces to inform
-#' on missings, even if there are no missings.
+#' \code{useNA = "no"}, missing values are excluded. When \code{useNA = "always"} info on
+#' missings is shown, even if there is none.
 #'
 #' @examples
 #' # Example data without missings
 #' sex <- c(rep("Male",10), rep("Female", 15))
+#' sex
 #' 
 #' # Frequency table
 #' gd_categ(sex)
 #' 
 #' # Show info on missings, even if none
-#' gd_categ(iris$Species, useNA = "always")
+#' gd_categ(sex, useNA = "always")
 #' 
 #' Example data with missings
 #' sex <- c(sex, NA, NA)
+#' sex
 #' 
 #' # Frequency table, including missings (total %)
 #' gd_categ(sex)
-#' gd_categ(sex, NA_label = "Faltan")
+#' gd_categ(sex, NA_label = "Not available")
 #'
 #' # Frequency table, excluding missings (Not recommended!)
 #' gd_categ(sex, useNA = "no")
 #'
 #' Example data with levels to be excluded for valid % calculation
 #' sex <- c(sex, rep("Unknown", 5))
+#' sex
 #' gd_categ(sex, exclude = "Unknown")
 #'
 #' @export
