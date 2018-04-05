@@ -19,33 +19,38 @@
 #' on missings, even if there are no missings.
 #'
 #' @examples
-#' # Example data (first lines)
-#' head(iris)
-#'
-#' # Just to have some missings in variable Species
-#' iris[sample(1:length(iris)), "Species"] <- NA
-#'
-#' # Frequency table, including missings (total %)
-#' gd_categ(iris$Species)
-#'
-#' # Frequency table, excluding missings (valid %)
-#' gd_categ(iris$Species, useNA = "no")
-#'
-#' # Avoid variable name prefixed with dataframe name
-#' with(iris, gd_categ(Species))
-#' with(iris, gd_categ(Species, useNA = "no"))
-#'
-#' # Force information of missings
+#' # Example data without missings
+#' sex <- c(rep("Male",10), rep("Female", 15))
+#' 
+#' # Frequency table
+#' gd_categ(sex)
+#' 
+#' # Show info on missings, even if none
 #' gd_categ(iris$Species, useNA = "always")
+#' 
+#' Example data with missings
+#' sex <- c(sex, NA, NA)
+#' 
+#' # Frequency table, including missings (total %)
+#' gd_categ(sex)
+#' gd_categ(sex, NA_label = "Faltan")
+#'
+#' # Frequency table, excluding missings (Not recommended!)
+#' gd_categ(sex, useNA = "no")
+#'
+#' Example data with levels to be excluded for valid % calculation
+#' sex <- c(sex, rep("Unknown", 5))
+#' gd_categ(sex, exclude = "Unknown")
 #'
 #' @export
-gd_categ <- function (x, useNA = "ifany", NA_label = "Missing") {
+gd_categ <- function (x, useNA = "ifany", NA_label = "Missing", exclude = "No disponible") {
 
   # input validation
     if (!is.vector(x) & !is.factor(x)) stop("x is neither a vector nor a factor")
     if (length(x)==0) stop("x has zero length")
     if ((length(NA_label) != 1) | (class(NA_label)[1] != "character")) 
         stop("NA_label not a character of length 1")
+    if (class(exclude) != "character") stop("exclude is not a character vector")
     
     
     # Counts
