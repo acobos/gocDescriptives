@@ -1,6 +1,6 @@
 Package: gocDescriptives
 Type: Package
-Title: What the Package Does (Title Case)
+Title: A package to produce descriptive tables for reports
 Version: 0.0.0.9002
 Author: A.Cobos
 Maintainer: A.Cobos <acobos@ub.edu>
