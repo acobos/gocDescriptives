@@ -8,7 +8,9 @@
 #' @param useNA Optional. Controls the handling of missing values. If provided,
 #' shoud be one of the following \code{character} values: "no", "ifany",
 #' "always". See Details.
-#'
+#' @param NA_label \code{character}. Label for missings in the output. Defaults to "Missing".
+#' @param exclude \code{character}. Levels to be excluded in the computation of valid %. Defaults to
+#' "No disponible". Can specify more than one, e.g.: c("No sabe", "No contesta", "Desconocido").
 #' @return A \code{dataframe} with three columns: \code{Variable}, \code{Key},
 #' \code{Value}.
 #'
