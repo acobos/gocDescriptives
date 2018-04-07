@@ -34,7 +34,7 @@
 #' sex <- c(sex, NA, NA)
 #' sex
 #' 
-#' # Frequency table, including missings (total %)
+#' # Frequency table, including missings
 #' gd_categ(sex)
 #' gd_categ(sex, NA_label = "Not available")
 #'
