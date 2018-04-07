@@ -2,52 +2,51 @@
 % Please edit documentation in R/gd_numeric.R
 \name{gd_numeric}
 \alias{gd_numeric}
-\title{Describes a quantitative variable}
+\title{Describes a numeric variable}
 \usage{
-gd_numeric(x, decimals = NA)
+gd_numeric(x, decimals = NA, language = "sp")
 }
 \arguments{
-\item{x}{The quantitative variable to be described (\code{numeric}).}
+\item{x}{\code{numeric}. Variable to be described.}
 
-\item{decimals}{Optional. Integer controling the rounding (decimals) of
-computed statistics. See Details.}
+\item{decimals}{Optional. Controls the rounding of summary statistics. If 
+specified, should be \code{numeric (integer)}. See Details.}
+
+\item{language}{\code{character}. Language for descriptive statistic 
+descriptors. Should be on of "sp", "en" or "ca". Defaults to "sp".}
 }
 \value{
 A \code{dataframe} with three columns: \code{Variable}, \code{Key},
 \code{Value}.
 }
 \description{
-Describes a quantitative variable by computing common statistics: mean (SD),
-median (IRQ), range, n (\%).
+Describes a numeric variable by computing common summary statistics.
 }
 \details{
-If \code{decimals} is not specified, statistics are computed
-according to the (median) precision of (\code{x}). Suppose (\code{x}) is
-expressed with two decimals. Then, the mean, SD, median and IQR are rounded
-to three decimals, while min and max are expressed with two decimals. If
-\code{decimals} is specified, mean, SD, median and IQR are rounded to
-\code{decimals+1} decimals, while min and max are expressed with \code{decimals}
-decimals. However, note that non-significant digits are never printed, e.g.,
-17.0 is printed as 17).
+Statistics are computed with adequate precision (rounding) in each 
+case: mean, median, sandard deviation and IQR values are rounded to one 
+additional decimal wrt to \code{x} values, while extremes (min, max) are 
+rounded to the same precision as \code{x} values. This will be convenient in 
+most cases, but may be changed by specifying \code{decimals}. If specified, 
+the mean, median, SD and IQR values are rounded to \code{decimals+1}, while 
+extremes are rounded to \code{decimals}. See examples.  
+
+In any case, note that non-significant digits are not printed (e.g.,17.0 is 
+printed as 17).
 }
 \examples{
-# Example data (first lines)
-head(iris)
+# Example data 
+weight <- seq(60,95,5)
+height <- 100 + weight
+bmi <- weight/(height/100)^2
 
-gd_numeric(iris$Sepal.Length)
+gd_numeric(weight)
+gd_numeric(height, language = "ca")
 
-# Avoid variable name prefixed with dataframe name
-with(iris, gd_numeric(Sepal.Length))
+# Excessive precission due to lack of rounding in computed bmi
+gd_numeric(bmi)
 
-# See Sepal.Length values and note their precision (1 decimal)
-iris$Sepal.Length
-
-# Increase precision of statistics
-gd_numeric(iris$Sepal.Length, decimals = 2)
-
-# Decrease precision of statistics
-Note that min and max are rounded to zero!
-gd_numeric(iris$Sepal.Length, decimals = 0)
-
+# Reduce precision
+gd_numeric(bmi, decimals = 1)
 
 }
