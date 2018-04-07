@@ -1,47 +1,48 @@
-#' Describes a quantitative variable
+#' Describes a numeric variable
 #'
-#' Describes a quantitative variable by computing common statistics: mean (SD),
-#' median (IRQ), range, n (\%).
+#' Describes a numeric variable by computing common summary statistics.
 #'
-#' @param x The quantitative variable to be described (\code{numeric}).
-#' @param decimals Optional. Integer controling the rounding (decimals) of
-#' computed statistics. See Details.
+#' @param x \code{numeric}. Variable to be described.
+#' @param decimals Optional. Controls the rounding of summary statistics. If 
+#' specified, should be \code{numeric (integer)}. See Details.
+#' @param language \code{character}. Language for descriptive statistic 
+#' descriptors. Should be on of "sp", "en" or "ca". Defaults to "sp".
+
 #'
 #' @return A \code{dataframe} with three columns: \code{Variable}, \code{Key},
 #' \code{Value}.
 #'
-#' @details If \code{decimals} is not specified, statistics are computed
-#' according to the (median) precision of (\code{x}). Suppose (\code{x}) is
-#' expressed with two decimals. Then, the mean, SD, median and IQR are rounded
-#' to three decimals, while min and max are expressed with two decimals. If
-#' \code{decimals} is specified, mean, SD, median and IQR are rounded to
-#' \code{decimals+1} decimals, while min and max are expressed with \code{decimals}
-#' decimals. However, note that non-significant digits are never printed, e.g.,
-#' 17.0 is printed as 17).
+#' @details Statistics are computed with adequate precision (rounding) in each 
+#' case: mean, median, sandard deviation and IQR values are rounded to one 
+#' additional decimal wrt to \code{x} values, while extremes (min, max) are 
+#' rounded to the same precision as \code{x} values. This will be convenient in 
+#' most cases, but may be changed by specifying \code{decimals}. If specified, 
+#' the mean, median, SD and IQR values are rounded to \code{decimals+1}, while 
+#' extremes are rounded to \code{decimals}. See examples.  
+#' 
+#' In any case, note that non-significant digits are not printed (e.g.,17.0 is 
+#' printed as 17). 
+#' 
+#' 
 #'
 #' @examples
-#' # Example data (first lines)
-#' head(iris)
+#' # Example data 
+#' weight <- seq(60,95,5)
+#' height <- 100 + weight
+#' bmi <- weight/(height/100)^2
 #'
-#' gd_numeric(iris$Sepal.Length)
-#'
-#' # Avoid variable name prefixed with dataframe name
-#' with(iris, gd_numeric(Sepal.Length))
-#'
-#' # See Sepal.Length values and note their precision (1 decimal)
-#' iris$Sepal.Length
-#'
-#' # Increase precision of statistics
-#' gd_numeric(iris$Sepal.Length, decimals = 2)
-#'
-#' # Decrease precision of statistics
-#' Note that min and max are rounded to zero!
-#' gd_numeric(iris$Sepal.Length, decimals = 0)
-#'
-#'
+#' gd_numeric(weight)
+#' gd_numeric(height, language = "ca")
+#' 
+#' # Excessive precission due to lack of rounding in computed bmi
+#' gd_numeric(bmi)
+#' 
+#' # Reduce precision
+#' gd_numeric(bmi, decimals = 1)
+#' 
 #' @export
 #'
-gd_numeric <- function(x, decimals=NA) {
+gd_numeric <- function(x, decimals=NA, language="sp") {
 
   # input validation
   if (!is.vector(x)) stop("x is not a vector")
@@ -49,6 +50,7 @@ gd_numeric <- function(x, decimals=NA) {
   if (sum(!is.na(x))==0) stop("x has no data, all elements are NA")
   if (length(decimals)!=1) stop("decimals should be of length 1")
   if (!is.na(decimals) & !is.numeric(decimals)) stop("incorrect decimals")
+  if (!(language %in% c("sp","en","ca"))) stop("incorrect language")
 
   # value for decimals
   dec <- ifelse(is.na(decimals),
@@ -67,12 +69,22 @@ gd_numeric <- function(x, decimals=NA) {
   p   <- round(100 * n / length(x),1)
 
   # return dataframe
+  if (language == "sp") stat_names = c("Media (DE)",
+                                      "Mediana (RIC)",
+                                      "min, max",
+                                      "n (%)")
+  if (language == "en") stat_names = c("Mean (SD)",
+                                       "Median (IQR)",
+                                       "min, max",
+                                       "n (%)")
+  if (language == "ca") stat_names = c("Mitjana (SD)",
+                                       "Mediana (IQR)",
+                                       "min, max",
+                                       "n (%)")
+      
   # require(stringr)
   data.frame(Variable = deparse(substitute(x)),
-             Key = c("Media (DE)",
-                     "Mediana (IQR)",
-                     "min, max",
-                     "n (%)"),
+             Key = stat_names,
              Value =  c(stringr::str_interp("${m} (${s})"),
                         stringr::str_interp("${md} (${IQR})"),
                         stringr::str_interp("${min}, ${max}"),
