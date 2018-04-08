@@ -86,6 +86,6 @@ gd_categ <- function (x, useNA = "ifany", NA_label = "Missing", exclude = "No di
     res$Variable <- deparse(substitute(x))
     res$Key <- as.character(res$x)
     res[is.na(res$Key),"Key"] <- NA_label
-    res %>% select(Variable, Key, Value)
+    dplyr::select(res, Variable, Key, Value)
 }
 
