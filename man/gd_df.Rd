@@ -4,17 +4,20 @@
 \alias{gd_df}
 \title{Describes all variables in a dataframe}
 \usage{
-gd_df(df, useNA = "ifany", decimals = NA, date_format = "\%d-\%b-\%y")
+gd_df(df, var_labels = NA, useNA = "ifany", NA_label = "Missing",
+  exclude = "No disponible", decimals = NA, date_format = "\%d-\%b-\%y")
 }
 \arguments{
 \item{df}{The \code{dataframe} to be described.}
 
-\item{decimals}{Optional. Integer controling the rounding (decimals) of
-statistics computed for quantitative variables, as in \code{gd_numeric}.
-See \code{?gd_numeric} for details.}
+\item{useNA, NA_label, exclude}{Options to control the description of 
+categorical variables. See \code{\link{gd_categ}} for details.}
 
-\item{percent}{Optional. If specified, should be one of the following
-\code{chacarter} values: \code{"total"} or \code{"valid"}. See details.}
+\item{decimals}{Option to control the rounding of statistics for numeric 
+variables. See \code{gd_numeric} for details.}
+
+\item{date_format}{Option to control the formatting of dates. See 
+\code{gd_date} for details.}
 }
 \value{
 A \code{dataframe} with three columns: \code{Variable}, \code{Key},
@@ -23,23 +26,14 @@ A \code{dataframe} with three columns: \code{Variable}, \code{Key},
 \description{
 Describes all variables in a dataframe.
 }
-\details{
-When \code{percent = "total"} (default), missing values are included
-and percentages are computed on total number of cases. When
-\code{percent = "valid"}, missing values are excluded and percentages are computed
-on the number of non-missing cases.
-}
 \examples{
-# Example data (first lines)
-head(iris)
+# Example data 
+set.seed(123)
+Sex <- sample(c("Male", "Female"), 100, replace=TRUE)
+Age <- floor(sample(50 + 10 * rnorm(100)))
+dat <- data.frame(Sex, Age)
 
-# Just to have some missings
-iris[sample(1:length(iris)), "Species"] <- NA
-iris[sample(1:length(iris)), "Sepal.Length"] <- NA
+# Describing dataframe dat                       
+gd_df(dat)                  
 
-gd_df(iris)
-gd_df(iris, percent = "total")
-
-# Frequency table, excluding missings (valid \%)
-gd_df(iris, percent = "valid")
 }
