@@ -3,35 +3,35 @@
 #' Describes all variables in a dataframe.
 #'
 #' @param df The \code{dataframe} to be described.
-#' @param percent Optional. If specified, should be one of the following
-#' \code{chacarter} values: \code{"total"} or \code{"valid"}. See details.
-#' @param decimals Optional. Integer controling the rounding (decimals) of
-#' statistics computed for quantitative variables, as in \code{gd_numeric}.
-#' See \code{?gd_numeric} for details.
+#' @param useNA,NA_label,exclude Options to control the description of 
+#' categorical variables. See \code{\link{gd_categ}} for details. 
+#' @param decimals Option to control the rounding of statistics for numeric 
+#' variables. See \code{gd_numeric} for details.
+#' @param date_format Option to control the formatting of dates. See 
+#' \code{gd_date} for details.
 #'
-#' @details When \code{percent = "total"} (default), missing values are included
-#' and percentages are computed on total number of cases. When
-#' \code{percent = "valid"}, missing values are excluded and percentages are computed
-#' on the number of non-missing cases.
 #'
 #' @return A \code{dataframe} with three columns: \code{Variable}, \code{Key},
 #' \code{Value}.
 #'
 #' @examples
-#' # Example data (first lines)
-#' head(iris)
-#'
-#' # Just to have some missings
-#' iris[sample(1:length(iris)), "Species"] <- NA
-#' iris[sample(1:length(iris)), "Sepal.Length"] <- NA
-#'
-#' gd_df(iris)
-#' gd_df(iris, percent = "total")
-#'
-#' # Frequency table, excluding missings (valid %)
-#' gd_df(iris, percent = "valid")
+#' # Example data 
+#' set.seed(123)
+#' Sex <- sample(c("Male", "Female"), 100, replace=TRUE)
+#' Age <- floor(sample(50 + 10 * rnorm(100)))
+#' dat <- data.frame(Sex, Age)
+#' 
+#' # Describing dataframe dat                       
+#' gd_df(dat)                  
+#' 
 #' @export
-gd_df <- function (df, useNA = "ifany", decimals = NA, date_format = "%d-%b-%y") {
+gd_df <- function (df, 
+                   var_labels = NA,
+                   useNA = "ifany", 
+                   NA_label = "Missing", 
+                   exclude = "No disponible",
+                   decimals = NA, 
+                   date_format = "%d-%b-%y") {
 
   # input validation
   if (!is.data.frame(df)) stop("df is not a dataframe !!")
@@ -52,25 +52,30 @@ gd_df <- function (df, useNA = "ifany", decimals = NA, date_format = "%d-%b-%y")
 
     # if numeric
     if (is.numeric(df[[varname]])) {
-      res <- gd_numeric(df[[varname]], decimals = NA) # decimals
+      res <- gd_numeric(df[[varname]], 
+                        decimals = NA) # decimals
     }
 
     # if character or factor
     if (is.factor(df[[varname]]) | is.character(df[[varname]])) {
-      res <- gd_categ(df[[varname]], useNA = useNA) }
+      res <- gd_categ(df[[varname]], 
+                      useNA = useNA,
+                      NA_label = NA_label,
+                      exclude = exclude) }
 
     # if date
-    if (class(df[[varname]][1]) %in% c("Date", "POSIXlt", "POSIXct", "POSIXt")) {
-      res <- gd_date(df[[varname]], date_format = date_format)
+    if (class(df[[varname]])[1] %in% c("Date", "POSIXlt", "POSIXct", "POSIXt")) {
+      res <- gd_date(df[[varname]], 
+                     date_format = date_format)
     }
 
     # sets the Variable in results and accumulates results
     res$Variable <- varname
     # results <- rbind(results, res)
-    results <- bind_rows(results, res)
-
+    results <- dplyr::bind_rows(results, res)
   }
 
   # returns
   results
+  
 }
