@@ -3,8 +3,8 @@
 #' Masks columns of a dataframe, changing numbers by character "x". This is 
 #' useful to prepare templates for tables in Statistcal Analysis Plans.
 #'
-#' @param df \code{dateframe} whit column(s) to be masked.
-#' @param col \code{Columns to be masked. Can be \code{character} or 
+#' @param df \code{dataframe} with column(s) to be masked.
+#' @param col Columns to be masked. Can be \code{character} or 
 #' \code{numeric}, indicating column names or positions. See examples.
 #' 
 #' @return A \code{dataframe} with same columns as \code{df}, with masked values 
