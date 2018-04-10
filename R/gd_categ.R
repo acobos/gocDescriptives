@@ -65,18 +65,18 @@ gd_categ <- function (x, useNA = "ifany", NA_label = "Missing", exclude = "No di
     valid_n <- sum(res$Freq[!(is.na(res$x) | res$x %in% exclude)])
     
     
-    res$Perc <- formatC(sprintf("(%.1f %%)", 100 * res$Freq / sum(res$Freq)),
-                        width=9)
+    res$Perc <- formatC(sprintf("(%.1f%%)", 100 * res$Freq / sum(res$Freq)),
+                        width=8)
     
     # si hay missings y
     # if (sum(is.na(x)) > 0 & useNA !="no") {
     if (valid_n < total) {
         res$Perc <- ifelse(!is.na(res$x) & !(res$x %in% exclude) ,
                            paste(res$Perc,
-                                 formatC(sprintf("[%.1f %%]", 100 * res$Freq / valid_n),
-                                         width=9)),
+                                 formatC(sprintf("[%.1f%%]", 100 * res$Freq / valid_n),
+                                         width=8)),
                            paste(res$Perc,
-                                 "         "))
+                                 "        "))
     }
     
     res$Value <- paste0("n = ", res$Freq, res$Perc)
