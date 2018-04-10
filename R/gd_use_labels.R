@@ -1,13 +1,12 @@
 #' Replaces Variable names by their labels in dataframes with descriptive results
 #'
 #' Replaces variable names by their labels, in dataframes with descriptive 
-#' results. For this function to work, it is required that:
-#' 1. the dataframe with descriptive results has a \code{Variable} column, 
-#' containing variable names, and 
-#' 2. A second dataframe must exist, containing variable names and variable 
+#' results. For this function to work, it is required that:  
+#' 1) the dataframe with descriptive results has a \code{Variable} column, 
+#' containing variable names, and  
+#' 2) A second dataframe must exist, containing variable names and variable 
 #' labels in separate columns (with arbitrary names).
-#' 
-#' In dataframes obtained from the descriptive functions in the 
+#' Dataframes obtained from the descriptive functions in the 
 #' `gocDescriptives` package, always have column \code{Variable} containing
 #' variable names, and therefore comply with condition 1 above. Regarding 
 #' condition 2, see Details.
@@ -21,9 +20,9 @@
 #' contains variable labels. 
 #' @return A similar dataframe, with variable names replaced by their labels.
 #'
-#'#' @examples
+#' @examples
 #' # Example data
-#' set.seed(123)
+#' set.seed(123) 
 #' Sex <- sample(c("Male", "Female"), 100, replace=TRUE)
 #' Age <- floor(sample(50 + 10 * rnorm(100)))
 #' Pulse <- floor(sample(80 + 10 * rnorm(100)))
