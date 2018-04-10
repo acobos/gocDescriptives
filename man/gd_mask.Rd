@@ -7,7 +7,10 @@
 gd_mask(df, col = "Value")
 }
 \arguments{
-\item{df}{\code{dateframe} whit column(s) to be masked.}
+\item{df}{\code{dataframe} with column(s) to be masked.}
+
+\item{col}{Columns to be masked. Can be \code{character} or 
+\code{numeric}, indicating column names or positions. See examples.}
 }
 \value{
 A \code{dataframe} with same columns as \code{df}, with masked values 
