@@ -4,7 +4,7 @@
 \alias{gd_df}
 \title{Describes all variables in a dataframe}
 \usage{
-gd_df(df, var_labels = NA, useNA = "ifany", NA_label = "Missing",
+gd_df(df, useNA = "ifany", NA_label = "Missing",
   exclude = "No disponible", decimals = NA, date_format = "\%d-\%b-\%y")
 }
 \arguments{
