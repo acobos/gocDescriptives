@@ -26,7 +26,6 @@
 #' 
 #' @export
 gd_df <- function (df, 
-                   var_labels = NA,
                    useNA = "ifany", 
                    NA_label = "Missing", 
                    exclude = "No disponible",
