@@ -22,14 +22,14 @@
 #' @export
 gd_access_mdb <- function(db_file, read_object = NA) {
   
-  # to connect with DB
-  library(RODBC)
-  con <- odbcConnectAccess(db_file)
+  con <- RODBC::odbcConnectAccess(db_file)
   
-  require(dplyr)
-  sqlTables(con, tableType = c("TABLE", "VIEW")) %>%
-    select(object = TABLE_NAME, 
-           type = TABLE_TYPE) -> obj_info
+  #' required packages
+  #' @import dplyr
+
+  RODBC::sqlTables(con, tableType = c("TABLE", "VIEW")) %>%
+      select(object = TABLE_NAME, 
+                    type = TABLE_TYPE) -> obj_info
   
   # list elements that are not "SYSTEM TABLE" 
   if (is.na(read_object)) {
@@ -38,8 +38,8 @@ gd_access_mdb <- function(db_file, read_object = NA) {
   }
   else {
     if (read_object %in% obj_info$object) {
-      res <- sqlFetch(con, read_object, 
-                      stringsAsFactors = FALSE)
+      res <- RODBC::sqlFetch(con, read_object, 
+                             stringsAsFactors = FALSE)
       close(con)
       return(res)
     } else {
