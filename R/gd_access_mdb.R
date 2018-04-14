@@ -19,7 +19,7 @@
 #' dat <- gd_access_mdb("my_data.mdb", read_object = "an_object")
 #' }
 #' 
-#' 
+#' @export
 gd_access_mdb <- function(db_file, read_object = NA) {
   
   # to connect with DB
