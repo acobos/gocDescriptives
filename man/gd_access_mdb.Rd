@@ -29,5 +29,4 @@ gd_access_mdb("my_data.mdb")
 dat <- gd_access_mdb("my_data.mdb", read_object = "an_object")
 }
 
-
 }
