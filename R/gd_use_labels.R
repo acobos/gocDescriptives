@@ -12,13 +12,18 @@
 #' condition 2, see Details.
 #'
 #' @param df A dataframe with decriptive results. 
+#' 
 #' @param var_df A second dataframe containing variable names and variable 
 #' labels in separate columns.
+#' 
 #' @param var_name \code{character} The name of the column in \code{var_df} that
 #' contains variable names. 
+#' 
 #' @param var_label \code{character} The name of the column in \code{var_df} that
 #' contains variable labels. 
-#' @return A similar dataframe, with variable names replaced by their labels.
+#' 
+#' @return \code{dataframe} similar to \code{df}, with variable names replaced 
+#' by their labels as defined in \code{var_df}.
 #'
 #' @examples
 #' # Example data
