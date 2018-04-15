@@ -19,7 +19,8 @@ contains variable labels.}
 labels in separate columns.}
 }
 \value{
-A similar dataframe, with variable names replaced by their labels.
+\code{dataframe} similar to \code{df}, with variable names replaced 
+by their labels as defined in \code{var_df}.
 }
 \description{
 Replaces variable names by their labels, in dataframes with descriptive 
